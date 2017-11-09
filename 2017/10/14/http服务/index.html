@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>http服务 | MRUJ&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="MRUJ,MRUJ's Blog" />
+  
+  <meta name="description" content="工作机制：http请求：http requesthttp响应：http response一次http事务：请求&amp;lt;–&amp;gt;响应Web资源：web resource一个网页由多个资源构成，打开一个页面，会有多个资源展 示出来，但是每个资源都要单独    请求。因此，一个“Web 页面 ”通常并不是单个资源，而是一组资源的集合静态文件：无需服务端做出额外处理文件后缀：.jpg, .html, .">
+<meta property="og:type" content="article">
+<meta property="og:title" content="http服务">
+<meta property="og:url" content="http://marujie.cf/2017/10/14/http服务/index.html">
+<meta property="og:site_name" content="MRUJ&#39;s Blog">
+<meta property="og:description" content="工作机制：http请求：http requesthttp响应：http response一次http事务：请求&amp;lt;–&amp;gt;响应Web资源：web resource一个网页由多个资源构成，打开一个页面，会有多个资源展 示出来，但是每个资源都要单独    请求。因此，一个“Web 页面 ”通常并不是单个资源，而是一组资源的集合静态文件：无需服务端做出额外处理文件后缀：.jpg, .html, .">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-10-18T12:45:40.420Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="http服务">
+<meta name="twitter:description" content="工作机制：http请求：http requesthttp响应：http response一次http事务：请求&amp;lt;–&amp;gt;响应Web资源：web resource一个网页由多个资源构成，打开一个页面，会有多个资源展 示出来，但是每个资源都要单独    请求。因此，一个“Web 页面 ”通常并不是单个资源，而是一组资源的集合静态文件：无需服务端做出额外处理文件后缀：.jpg, .html, .">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">MRUJ&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>主页</span>
+                    </a>
+                    
+                    <a target="_blank" href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于我</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        MRUJ&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        一个专注于Linux运维的个人博客
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/5159067430/profile?topnav=1&wvr=6&is_all=1">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-http服务" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      http服务
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2017-10-14
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <p>工作机制：<br>http请求：http request<br>http响应：http response<br>一次http事务：请求&lt;–&gt;响应<br>Web资源：web resource<br>一个网页由多个资源构成，打开一个页面，会有多个资源展 示出来，但是每个资源都要单独    请求。因此，一个“Web 页面 ”通常并不是单个资源，而是一组资源的集合<br>静态文件：无需服务端做出额外处理<br>文件后缀：.jpg, .html, .txt, .js, .css, .mp3, .avi<br>动态文件：服务端执行程序，返回执行的结果<br>文件后缀：.asp, .php, .jsp<br>提高HTTP连接性能：<br>并行连接：通过多条TCP连接发起并发的HTTP请求<br>持久连接：keep-alive,长连接，重用TCP连接，以消除连 接和关闭的时延,以事务个数和                        时间来决定是否关闭连接<br>管道化连接：通过共享TCP连接发起并发的HTTP请求<br>复用的连接：交替传送请求和响应报文（实验阶段）<br>40.3.URI<br>URI: Uniform Resource Identifier 统一资源标识，分为URL和URN<br>URN: Uniform Resource Naming，统一资源命名 示例： P2P下载使用的磁力链接是URN的一            种实现 magnet:?xt=urn:btih:660557A6890EF888666<br>URL: Uniform Resorce Locator，统一资源定位符，用于描述某服务器某特定资源位置<br>两者区别：URN如同一个人的名称，而URL代表一个人的住址。换言之，URN定义某事物的身份，而URL提供查找 该事物的方法。URN仅用于命名，而不指定地址<br>40.4.网站访问量<br>IP(独立IP)：即Internet Protocol,指独立IP数。一天内来自相同客户机IP地址只计算一次，记录远程客户机IP地址的计算机访问网站的次数，是衡量网站流量的重要指标<br>PV(访问量)： 即Page View, 页面浏览量或点击量，用户每 次刷新即被计算一次，PV反映的是浏览某网站的页面数，PV 与来访者的数量成正比，PV并不是页面的来访者数量，而是 网站被访问的页面数量<br>UV(独立访客)：即Unique Visitor,访问网站的一台电脑为一 个访客。一天内相同的客户端只被计算一次。可以理解成访 问某网站的电脑的数量。网站判断来访电脑的身份是通过来 访电脑的cookies实现的。如果更换了IP后但不清除cookies， 再访问相同网站，该网站的统计中UV数是不变的。<br>示例：<br>甲乙丙三人在同一台通过ADSL上网的电脑上（中间没有断网），分别访问www.magedu.com网站，并且每人各浏览了2个页面，那么网站的流量统计是：<br>IP: 1 PV:6 UV：1<br>若三人都是ADSL重新拨号后,各浏览了2个页面，则<br>IP: 3 PV:6 UV：1<br>40.5.http的请求处理过程<br>1、建立连接：接收或拒绝连接请求<br>2、接收请求：接收客户端请求报文中对某资源的一次请求的过程<br>Web访问响应模型（Web I/O）<br>1.单进程I/O模型：启动一个进程处理用户请求，而且一次只处理一个，多个请求被串行      响应多进程I/O模型：并行启动多个进程,每个进程响应一个连接请求<br>2.复用I/O结构：启动一个进程，同时响应N个连接请求<br>实现方法：多线程模型和事件驱动<br>多线程模型：一个进程生成N个线程，每线程响应一个连接请求<br>事件驱动：一个进程处理N个请求<br>3.复用的多进程I/O模型：启动M个进程，每个进程响应N个连接请求，同时接收M*N个请求<br>3、处理请求：服务器对请求报文进行解析，并获取请求的资源及请求方法等相关信息，根据    方法，资源，首部和可选的主体部分对请求进行处理<br>元数据：请求报文首部</p>
+<p><method> <url> <version><br>HEADERS 格式 name:value</version></url></method></p>
+<p><request body=""><br>示例：<br>Host: www.magedu.com<br>Server: Apache/2.4.7<br>    HTTP常用请求方式，Method GET、POST、HEAD、PUT、DELETE、TRACE、OPTIONS<br>4、访问资源：<br>服务器获取请求报文中请求的资源web服务器，即存放了 web资源的服务器，负责向请求者提供对方请求的静态资源，或动态运行后生成的资源。<br>资源放置于本地文件系统特定的路径：DocRoot DocRoot —&gt;/var/www/html<br>/var/www/html/images/logo.jpg<br><a href="http://www.magedu.com/images/logo.jpg" target="_blank" rel="external">http://www.magedu.com/images/logo.jpg</a><br>    web服务器资源路径映射方式：<br>docroot<br>alias<br>虚拟主机docroot<br>用户家目录docroot<br>5、构建响应报文：<br>一旦Web服务器识别除了资源，就执行请求方法中描述 的动作，并返回响应报文。响应报<br>文中 包含有响应状态码、响 应首部，如果生成了响应主体的话，还包括响应主体<br>1）响应实体：如果事务处理产生了响应主体，就将内容放在 响应报文中回送过去。响应报文中通常包括：<br>描述了响应主体MIME类型的Content-Type首部;描述了响应主体长度的Content-Length;实际报文的主体内容<br>2）URL重定向：web服务构建的响应并非客户端请求的资源<br>，而是资源另外一个访问路径<br>永久重定向：<a href="http://www.360buy.com" target="_blank" rel="external">http://www.360buy.com</a> 临时重定向：<a href="http://www.taobao.com" target="_blank" rel="external">http://www.taobao.com</a><br>3）MIME类型：<br>Web服务器要负责确定响应主体的MIME类型。多种配置服务器的方法可将MIME类型与资源管理起来.<br>魔法分类：Apache web服务器可以扫描每个资源的内容，并 将其与一个已知模式表(被称为魔法文件)进行匹配，以决定每个 文件的MIME类型。这样做可能比较慢，但很方便，尤其是文件 没有标准扩展名时<br>显式分类：可以对Web服务器进行配置，使其不考虑文件的 扩展名或内容，强制特定文件或目录内容拥有某个MIME类型<br>类型协商： 有些Web服务器经过配置，可以以多种文档格 式来存储资源。在这种情况下，可以配置Web服务器，使其可 以通过与用户的协商来决定使用哪种格式(及相关的MIME类型<br>)”最好”<br>6、发送响应报文<br>Web服务器通过连接发送数据时也会面临与接收数据一 样的问题。服务器可能有很多条到各个客户端的连接，有些是空闲的，有些在向服务器发送数据，还有一些在向客户端回送响应 数据。服务器要记录连接的状态，还要特别注意对持久连接的处 理。对非持久连接而言，服务器应该在发送了整条报文之后，关 闭自己这一端的连接。对持久连接来说，连接可能仍保持打开状 态，在这种情况下，服务器要正确地计算Content-Length首部<br>，不然客户端就无法知道响应什么时候结束了<br>7、记录日志<br>最后，当事务结束时，Web服务器会在日志文件中添加一个条目，来描述已执行的事务</request></p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2017年10月18日 20:45</p>
+        <p>原始链接： <a class="post-url" href="/2017/10/14/http服务/" title="http服务">http://marujie.cf/2017/10/14/http服务/</a></p>
+        <footer>
+            <a href="http://marujie.cf">
+                <img src="/images/logo.png" alt="marujie">
+                marujie
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://marujie.cf/2017/10/14/http服务/&title=《http服务》 — MRUJ's Blog&pic=http://marujie.cfimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://marujie.cf/2017/10/14/http服务/&title=《http服务》 — MRUJ's Blog&source=linux" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://marujie.cf/2017/10/14/http服务/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《http服务》 — MRUJ's Blog&url=http://marujie.cf/2017/10/14/http服务/&via=http://marujie.cf" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://marujie.cf/2017/10/14/http服务/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://marujie.cf/2017/10/14/http服务/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+
+<nav id="article-nav">
+  
+  
+    <a href="/2017/10/14/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Hello World</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2017 marujie<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://marujie.cf",
+      animate: true,
+      isHome: false,
+      share: true
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            
+        </div>
+        <div id="sidebar-menu-box-tags">
+            
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>主页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a target="_blank" href="/about">
+                    <i class="fa fa-user"></i><span>关于我</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+  </div>
+</body>
+</html>
